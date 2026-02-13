@@ -4,7 +4,10 @@ require_relative '../lib/slack_big_emoji'
 cli = SlackBigEmoji::CLI.new(ARGV)
 emoji = SlackBigEmoji::Converter.new(cli.options)
 unless emoji.valid?
-  abort "Image must be a square, w/h ratio of 1.0"
+  if emoji.output_ext == 'gif' && (emoji.frame_width != emoji.canvas_width || emoji.frame_height != emoji.canvas_height)
+    abort "Image must be square (width == height). Detected canvas #{emoji.canvas_width}x#{emoji.canvas_height} (ratio #{format('%.4f', emoji.ratio)}); first-frame #{emoji.frame_width}x#{emoji.frame_height} (GIFs may store trimmed frames on a larger square canvas)."
+  end
+  abort "Image must be square (width == height). Detected #{emoji.width}x#{emoji.height} (ratio #{format('%.4f', emoji.ratio)})."
 end
 
 cli.log "File Info"
@@ -30,7 +33,11 @@ cli.log "--------------"
 cli.log "Temp Input", emoji.image.path
 cli.log "Output Dir", emoji.output_dir
 cli.log "Output Path", emoji.output_path
-emoji.convert
+begin
+  emoji.convert
+rescue SlackBigEmoji::ConversionError => e
+  abort e.message
+end
 cli.log "Done", "Yes"
 
 unless cli.options[:convert_only]

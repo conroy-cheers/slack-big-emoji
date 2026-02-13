@@ -8,9 +8,9 @@ See [What's a Big Emoji?](#whats-a-big-emoji) for more information.
 
 About images:
 
-- Tool can only process static image files (only png, jpg, jpeg).
+- Tool can process static image files (png, jpg, jpeg) and animated GIFs.
 - Images must be square or hold a w/h ratio of 1.0, this is going to be validated.
-- No GIF support since Slack's limit is 64kb and it's a pain to generalize optimization.
+- GIF output is generated tile-by-tile to preserve animation. The tool fails if any output GIF exceeds 128KB; use `--tile-size`, `--gif-colors`, and `--gif-optimize` to reduce size.
 
 ## Usage
 

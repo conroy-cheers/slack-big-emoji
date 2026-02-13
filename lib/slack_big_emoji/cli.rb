@@ -31,6 +31,27 @@ module SlackBigEmoji
           options[:width] = val
         end
 
+        opts.on( '--tile-size=PX', Integer, 'Tile size in pixels (default: 128). Smaller can help keep GIFs under Slack limits.' ) do |val|
+          options[:tile_size] = val
+        end
+
+        opts.on( '--gif-colors=N', Integer, 'GIF palette colors (2-256, default: 256). Lower reduces size.' ) do |val|
+          options[:gif_colors] = val
+        end
+
+        opts.on( '--gif-dither=METHOD', 'GIF dithering method (default: None).' ) do |val|
+          options[:gif_dither] = val
+        end
+
+        options[:gif_optimize] = false
+        opts.on( '--gif-optimize', 'Optimize GIF frames (may reduce size).' ) do
+          options[:gif_optimize] = true
+        end
+
+        opts.on( '--max-gif-bytes=BYTES', Integer, 'Fail if any output GIF exceeds BYTES (default: 131072). Use 0 to disable.' ) do |val|
+          options[:max_gif_bytes] = val
+        end
+
         options[:convert_only] = true
         opts.on( '-c', '--convert-only', 'Convert image but do not upload (default).' ) do
           options[:convert_only] = true
@@ -46,10 +67,10 @@ module SlackBigEmoji
 
       file = args.first # ARGV args only - no options
 
-      # validates input to be one image file, no gif support (yet)
+      # validates input to be one image file
       abort "Error: Missing input file" unless file
       abort "Just specify one file" if args.count > 1
-      abort "Use a valid image file (png, jpeg or jpg)" if (file =~ /.\.(png|jpeg|jpg)$/).nil?
+      abort "Use a valid image file (png, jpeg, jpg, gif)" if (file =~ /.\.(png|jpeg|jpg|gif)$/i).nil?
 
       options[:file] = file
 
