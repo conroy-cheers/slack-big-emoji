@@ -31,8 +31,8 @@ module SlackBigEmoji
           options[:width] = val
         end
 
-        options[:convert_only] = false
-        opts.on( '-c', '--convert-only', 'Convert image but do not upload.' ) do
+        options[:convert_only] = true
+        opts.on( '-c', '--convert-only', 'Convert image but do not upload (default).' ) do
           options[:convert_only] = true
         end
 

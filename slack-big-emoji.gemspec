@@ -21,8 +21,6 @@ Gem::Specification.new do |s|
   s.test_files       = s.files.grep(%r{^spec/})
   s.extra_rdoc_files = %w[README.md]
 
-  s.add_dependency "mechanize", "~> 2.7.5"
-  s.add_dependency "highline", "~> 1.7.8"
   s.add_dependency "mini_magick", "~> 4.7.2"
 
   s.add_development_dependency "bundler", "~> 2.6.8"

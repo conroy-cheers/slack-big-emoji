@@ -34,11 +34,7 @@ emoji.convert
 cli.log "Done", "Yes"
 
 unless cli.options[:convert_only]
-  cli.log ""
-  cli.log "Uploading"
-  cli.log "--------------"
-  uploader = SlackBigEmoji::Uploader.new(emoji.file_name)
-  uploader.upload_emojis
+  abort "Uploading is no longer supported (mechanize dependency removed). Re-run with -c/--convert-only."
 end
 
 cli.log ""

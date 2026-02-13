@@ -6,49 +6,21 @@ See [What's a Big Emoji?](#whats-a-big-emoji) for more information.
 
 ## Support
 
-Make sure you're using Ruby 2.4.0 (will support native OS X version soon) and you have a working installation of ImageMagick.
-
 About images:
 
 - Tool can only process static image files (only png, jpg, jpeg).
 - Images must be square or hold a w/h ratio of 1.0, this is going to be validated.
 - No GIF support since Slack's limit is 64kb and it's a pain to generalize optimization.
 
-## Docker
-
-Build:
-
-```
-docker build -t slack-big-emoji .
-```
-
-Mount dir with the input file and run:
-
-```
-mkdir myinput
-cp ~/Downloads/example.png myinput/
-docker run -ti -v $PWD/myinput:/input slack-big-emoji /app/bin/slack-big-emoji -c -o /input/ /input/example.png
-```
-
-## Installation
-
-Installation is done through RubyGems, to install run:
-
-```
-$ gem install slack-big-emoji
-```
-
-Once completed you should be ready to go.
-
 ## Usage
 
 First, locate a square image and run:
 
 ```
-$ slack-big-emoji liarliar.jpg
+nix run . -- liarliar.jpg
 ```
 
-The script will resize and crop the image into tiles and upload them all (through a small wizard) to your team's Slack.
+The script will resize and crop the image into tiles. Uploading to Slack is no longer supported (the old uploader depended on `mechanize`).
 
 You can also run `slack-big-emoji --help` for more options.
 
